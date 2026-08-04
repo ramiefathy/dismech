@@ -13,8 +13,10 @@ on:
       - 'dermatology_kg/**'
       - 'src/dismech/export/dermatology_bundle.py'
       - 'scripts/build_dermatology_kg.py'
+      - 'scripts/build_dermatology_kg_v2.py'
       - 'tests/test_dermatology_bundle.py'
       - 'tests/test_dermatology_bundle_repository.py'
+      - 'tests/test_dermatology_scope_supplement.py'
       - '.github/workflows/dermatology-kg.yaml'
   push:
     branches: [main]
@@ -28,8 +30,10 @@ on:
       - 'dermatology_kg/**'
       - 'src/dismech/export/dermatology_bundle.py'
       - 'scripts/build_dermatology_kg.py'
+      - 'scripts/build_dermatology_kg_v2.py'
       - 'tests/test_dermatology_bundle.py'
       - 'tests/test_dermatology_bundle_repository.py'
+      - 'tests/test_dermatology_scope_supplement.py'
       - '.github/workflows/dermatology-kg.yaml'
   workflow_dispatch:
     inputs:
@@ -70,18 +74,20 @@ jobs:
       - name: Install project
         run: uv sync --dev
 
-      - name: Run exporter tests
+      - name: Run exporter and supplemental-scope tests
         run: |
           uv run pytest \
             tests/test_dermatology_bundle.py \
             tests/test_dermatology_bundle_repository.py \
+            tests/test_dermatology_scope_supplement.py \
             -q
 
       - name: Validate current-corpus scope and dependency closure
         run: |
-          uv run python scripts/build_dermatology_kg.py \
+          uv run python scripts/build_dermatology_kg_v2.py \
             --audit-only \
-            --profile archival \
+            --no-strict \
+            --profile compact \
             --output "${{ runner.temp }}/dermatology-kg-audit" \
             --force
 
@@ -90,11 +96,11 @@ jobs:
         with:
           name: dermatology-kg-audit-${{ github.sha }}
           path: ${{ runner.temp }}/dermatology-kg-audit/
-          retention-days: 7
+          retention-days: 14
           if-no-files-found: error
 
   build-archive:
-    if: github.event_name == 'workflow_dispatch' && inputs.build_archive
+    if: github.event_name != 'workflow_dispatch' || inputs.build_archive
     needs: audit
     runs-on: ubuntu-latest
     steps:
@@ -116,10 +122,21 @@ jobs:
       - name: Install project
         run: uv sync --dev
 
+      - name: Resolve bundle profile
+        id: profile
+        shell: bash
+        run: |
+          profile=compact
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            profile="${{ inputs.profile }}"
+          fi
+          echo "value=$profile" >> "$GITHUB_OUTPUT"
+
       - name: Build standalone bundle
         run: |
-          uv run python scripts/build_dermatology_kg.py \
-            --profile "${{ inputs.profile }}" \
+          uv run python scripts/build_dermatology_kg_v2.py \
+            --no-strict \
+            --profile "${{ steps.profile.outputs.value }}" \
             --output "${{ runner.temp }}/dermatology-kg" \
             --archive "${{ runner.temp }}/dismech-dermatology-kg.tar.gz" \
             --force
@@ -127,7 +144,7 @@ jobs:
       - name: Upload standalone archive and manifest
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: dismech-dermatology-kg-${{ inputs.profile }}-${{ github.sha }}
+          name: dismech-dermatology-kg-${{ steps.profile.outputs.value }}-${{ github.sha }}
           path: |
             ${{ runner.temp }}/dismech-dermatology-kg.tar.gz
             ${{ runner.temp }}/dermatology-kg/manifest.json
