@@ -1,0 +1,98 @@
+registry_version: 2
+name: High-priority comprehensive dermatology scope supplement
+description: >-
+  Reviewed condition-label registry spanning clinical dermatology, dermatopathology,
+  rheumatology-dermatology overlap, genodermatoses, infection, neoplasia, emergencies,
+  pregnancy, hair, nail, and mucosal disease. Entries are exact-label scope signals only;
+  they do not add, rewrite, or validate scientific assertions.
+source_basis:
+- Differential Diagnosis for the Dermatologist, Second Edition (user-provided source and derived CSV)
+- Interdisciplinary Approaches to Overlap Disorders in Dermatology & Rheumatology (user-provided source)
+- Review of Dermatology (user-provided board-review source)
+- Peer-reviewed literature and specialty-gap review, 2026-08-04
+board_priority:
+- {id: clinical_scope_pityriasis_rubra_pilaris, label: Pityriasis rubra pilaris, domains: [papulosquamous_interface]}
+- {id: clinical_scope_pityriasis_lichenoides, label: Pityriasis lichenoides, domains: [papulosquamous_interface], aliases: [Pityriasis lichenoides et varioliformis acuta, Pityriasis lichenoides chronica]}
+- {id: clinical_scope_erosive_lichen_planus, label: Erosive lichen planus, domains: [papulosquamous_interface, hair_nail_mucosal]}
+- {id: clinical_scope_lichen_sclerosus, label: Lichen sclerosus, domains: [papulosquamous_interface, hair_nail_mucosal]}
+- {id: clinical_scope_acute_gvhd, label: Acute graft-versus-host disease, domains: [papulosquamous_interface, drug_reaction_pregnancy], aliases: [Acute GVHD]}
+- {id: clinical_scope_chronic_gvhd, label: Chronic graft-versus-host disease, domains: [papulosquamous_interface], aliases: [Chronic GVHD]}
+- {id: clinical_scope_pemphigus_foliaceus, label: Pemphigus foliaceus, domains: [immunobullous]}
+- {id: clinical_scope_paraneoplastic_pemphigus, label: Paraneoplastic pemphigus, domains: [immunobullous, neoplastic]}
+- {id: clinical_scope_iga_pemphigus, label: IgA pemphigus, domains: [immunobullous]}
+- {id: clinical_scope_mucous_membrane_pemphigoid, label: Mucous membrane pemphigoid, domains: [immunobullous, hair_nail_mucosal], aliases: [Cicatricial pemphigoid, MMP]}
+- {id: clinical_scope_linear_iga_bullous_dermatosis, label: Linear IgA bullous dermatosis, domains: [immunobullous], aliases: [LABD]}
+- {id: clinical_scope_epidermolysis_bullosa_acquisita, label: Epidermolysis bullosa acquisita, domains: [immunobullous], aliases: [EBA]}
+- {id: clinical_scope_anti_p200_pemphigoid, label: Anti-p200 pemphigoid, domains: [immunobullous]}
+- {id: clinical_scope_bullous_lupus, label: Bullous systemic lupus erythematosus, domains: [immunobullous, connective_tissue_rheum_derm], aliases: [Bullous lupus]}
+- {id: clinical_scope_acute_cutaneous_lupus, label: Acute cutaneous lupus erythematosus, domains: [connective_tissue_rheum_derm], aliases: [ACLE]}
+- {id: clinical_scope_chilblain_lupus, label: Chilblain lupus erythematosus, domains: [connective_tissue_rheum_derm]}
+- {id: clinical_scope_lupus_panniculitis, label: Lupus panniculitis, domains: [connective_tissue_rheum_derm, panniculitis_lipodystrophy], aliases: [Lupus profundus]}
+- {id: clinical_scope_tumid_lupus, label: Tumid lupus erythematosus, domains: [connective_tissue_rheum_derm]}
+- {id: clinical_scope_amyopathic_dermatomyositis, label: Clinically amyopathic dermatomyositis, domains: [connective_tissue_rheum_derm], aliases: [Amyopathic dermatomyositis, CADM]}
+- {id: clinical_scope_mda5_dermatomyositis, label: Anti-MDA5 dermatomyositis, domains: [connective_tissue_rheum_derm], aliases: [MDA5 dermatomyositis, Anti-MDA5-positive dermatomyositis]}
+- {id: clinical_scope_antisynthetase_syndrome, label: Antisynthetase syndrome, domains: [connective_tissue_rheum_derm]}
+- {id: clinical_scope_eosinophilic_fasciitis, label: Eosinophilic fasciitis, domains: [connective_tissue_rheum_derm]}
+- {id: clinical_scope_nephrogenic_systemic_fibrosis, label: Nephrogenic systemic fibrosis, domains: [connective_tissue_rheum_derm]}
+- {id: clinical_scope_scleromyxedema, label: Scleromyxedema, domains: [connective_tissue_rheum_derm, metabolic_depositional_systemic]}
+- {id: clinical_scope_multicentric_reticulohistiocytosis, label: Multicentric reticulohistiocytosis, domains: [connective_tissue_rheum_derm, neutrophilic_granulomatous_histiocytic]}
+- {id: clinical_scope_cutaneous_small_vessel_vasculitis, label: Cutaneous small vessel vasculitis, domains: [vasculitis_vasculopathy], aliases: [CSVV]}
+- {id: clinical_scope_urticarial_vasculitis, label: Urticarial vasculitis, domains: [vasculitis_vasculopathy]}
+- {id: clinical_scope_huvs, label: Hypocomplementemic urticarial vasculitis syndrome, domains: [vasculitis_vasculopathy], aliases: [HUVS]}
+- {id: clinical_scope_cryoglobulinemic_vasculitis, label: Cryoglobulinemic vasculitis, domains: [vasculitis_vasculopathy]}
+- {id: clinical_scope_cutaneous_pan, label: Cutaneous polyarteritis nodosa, domains: [vasculitis_vasculopathy]}
+- {id: clinical_scope_livedoid_vasculopathy, label: Livedoid vasculopathy, domains: [vasculitis_vasculopathy], aliases: [Livedoid vasculitis]}
+- {id: clinical_scope_degos_disease, label: Degos disease, domains: [vasculitis_vasculopathy], aliases: [Malignant atrophic papulosis]}
+- {id: clinical_scope_sneddon_syndrome, label: Sneddon syndrome, domains: [vasculitis_vasculopathy]}
+- {id: clinical_scope_purpura_fulminans, label: Purpura fulminans, domains: [vasculitis_vasculopathy, drug_reaction_pregnancy]}
+- {id: clinical_scope_neutrophilic_dermatosis_dorsal_hands, label: Neutrophilic dermatosis of the dorsal hands, domains: [neutrophilic_granulomatous_histiocytic]}
+- {id: clinical_scope_pngd, label: Palisaded neutrophilic granulomatous dermatitis, domains: [neutrophilic_granulomatous_histiocytic], aliases: [PNGD]}
+- {id: clinical_scope_interstitial_granulomatous_dermatitis, label: Interstitial granulomatous dermatitis, domains: [neutrophilic_granulomatous_histiocytic], aliases: [IGD]}
+- {id: clinical_scope_badas, label: Bowel-associated dermatosis-arthritis syndrome, domains: [neutrophilic_granulomatous_histiocytic], aliases: [BADAS]}
+- {id: clinical_scope_subcorneal_pustular_dermatosis, label: Subcorneal pustular dermatosis, domains: [neutrophilic_granulomatous_histiocytic], aliases: [Sneddon-Wilkinson disease, SPD]}
+- {id: clinical_scope_neutrophilic_eccrine_hidradenitis, label: Neutrophilic eccrine hidradenitis, domains: [neutrophilic_granulomatous_histiocytic]}
+- {id: clinical_scope_alpha1_panniculitis, label: Alpha-1 antitrypsin deficiency panniculitis, domains: [panniculitis_lipodystrophy]}
+- {id: clinical_scope_pancreatic_panniculitis, label: Pancreatic panniculitis, domains: [panniculitis_lipodystrophy]}
+- {id: clinical_scope_sptcl, label: Subcutaneous panniculitis-like T-cell lymphoma, domains: [panniculitis_lipodystrophy, neoplastic], aliases: [SPTCL]}
+- {id: clinical_scope_ccca, label: Central centrifugal cicatricial alopecia, domains: [hair_nail_mucosal], aliases: [CCCA]}
+- {id: clinical_scope_ffa, label: Frontal fibrosing alopecia, domains: [hair_nail_mucosal], aliases: [FFA]}
+- {id: clinical_scope_traction_alopecia, label: Traction alopecia, domains: [hair_nail_mucosal]}
+- {id: clinical_scope_folliculitis_decalvans, label: Folliculitis decalvans, domains: [hair_nail_mucosal]}
+- {id: clinical_scope_dissecting_cellulitis, label: Dissecting cellulitis of the scalp, domains: [hair_nail_mucosal, appendageal_acne_hidradenitis]}
+- {id: clinical_scope_nail_unit_melanoma, label: Nail unit melanoma, domains: [hair_nail_mucosal, neoplastic]}
+- {id: clinical_scope_onychopapilloma, label: Onychopapilloma, domains: [hair_nail_mucosal]}
+- {id: clinical_scope_retronychia, label: Retronychia, domains: [hair_nail_mucosal]}
+- {id: clinical_scope_complex_aphthosis, label: Complex aphthosis, domains: [hair_nail_mucosal]}
+- {id: clinical_scope_pyostomatitis_vegetans, label: Pyostomatitis vegetans, domains: [hair_nail_mucosal]}
+- {id: clinical_scope_hailey_hailey, label: Hailey-Hailey disease, domains: [pediatric_genetic]}
+- {id: clinical_scope_darier, label: Darier disease, domains: [pediatric_genetic]}
+- {id: clinical_scope_pachyonychia_congenita, label: Pachyonychia congenita, domains: [pediatric_genetic]}
+- {id: clinical_scope_netherton, label: Netherton syndrome, domains: [pediatric_genetic]}
+- {id: clinical_scope_child_syndrome, label: CHILD syndrome, domains: [pediatric_genetic]}
+- {id: clinical_scope_kindler_eb, label: Kindler epidermolysis bullosa, domains: [pediatric_genetic]}
+- {id: clinical_scope_focal_dermal_hypoplasia, label: Focal dermal hypoplasia, domains: [pediatric_genetic], aliases: [Goltz syndrome]}
+- {id: clinical_scope_pik3ca_overgrowth, label: PIK3CA-related overgrowth spectrum, domains: [pediatric_genetic]}
+- {id: clinical_scope_congenital_melanocytic_nevus_syndrome, label: Congenital melanocytic nevus syndrome, domains: [pediatric_genetic]}
+- {id: clinical_scope_atypical_mycobacteria, label: Atypical mycobacterial infection, domains: [infection_infestation]}
+- {id: clinical_scope_sporotrichosis, label: Sporotrichosis, domains: [infection_infestation]}
+- {id: clinical_scope_chromoblastomycosis, label: Chromoblastomycosis, domains: [infection_infestation]}
+- {id: clinical_scope_mycetoma, label: Mycetoma, domains: [infection_infestation]}
+- {id: clinical_scope_ecthyma_gangrenosum, label: Ecthyma gangrenosum, domains: [infection_infestation]}
+- {id: clinical_scope_pitted_keratolysis, label: Pitted keratolysis, domains: [infection_infestation]}
+- {id: clinical_scope_crusted_scabies, label: Crusted scabies, domains: [infection_infestation]}
+- {id: clinical_scope_sebaceous_carcinoma, label: Sebaceous carcinoma, domains: [neoplastic]}
+- {id: clinical_scope_atypical_fibroxanthoma, label: Atypical fibroxanthoma, domains: [neoplastic]}
+- {id: clinical_scope_pleomorphic_dermal_sarcoma, label: Pleomorphic dermal sarcoma, domains: [neoplastic]}
+- {id: clinical_scope_microcystic_adnexal_carcinoma, label: Microcystic adnexal carcinoma, domains: [neoplastic]}
+- {id: clinical_scope_eccrine_porocarcinoma, label: Eccrine porocarcinoma, domains: [neoplastic]}
+- {id: clinical_scope_primary_cutaneous_b_cell_lymphoma, label: Primary cutaneous B-cell lymphoma, domains: [neoplastic]}
+- {id: clinical_scope_primary_cutaneous_cd30_lpd, label: Primary cutaneous CD30-positive lymphoproliferative disorder, domains: [neoplastic]}
+- {id: clinical_scope_angiosarcoma, label: Cutaneous angiosarcoma, domains: [neoplastic]}
+- {id: clinical_scope_gbfde, label: Generalized bullous fixed drug eruption, domains: [drug_reaction_pregnancy], aliases: [GBFDE]}
+- {id: clinical_scope_sdrife, label: Symmetrical drug-related intertriginous and flexural exanthema, domains: [drug_reaction_pregnancy], aliases: [SDRIFE]}
+- {id: clinical_scope_ici_bullous_pemphigoid, label: Immune checkpoint inhibitor bullous pemphigoid, domains: [drug_reaction_pregnancy, immunobullous]}
+- {id: clinical_scope_egfr_acneiform_eruption, label: EGFR inhibitor acneiform eruption, domains: [drug_reaction_pregnancy]}
+- {id: clinical_scope_pustular_psoriasis_pregnancy, label: Pustular psoriasis of pregnancy, domains: [drug_reaction_pregnancy], aliases: [Impetigo herpetiformis]}
+- {id: clinical_scope_necrobiotic_xanthogranuloma, label: Necrobiotic xanthogranuloma, domains: [metabolic_depositional_systemic], aliases: [NXG]}
+- {id: clinical_scope_schnitzler, label: Schnitzler syndrome, domains: [metabolic_depositional_systemic]}
+- {id: clinical_scope_necrolytic_acral_erythema, label: Necrolytic acral erythema, domains: [metabolic_depositional_systemic]}

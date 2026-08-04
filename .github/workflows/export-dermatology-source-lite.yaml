@@ -1,0 +1,64 @@
+name: Export dermatology source-lite
+
+on:
+  push:
+    branches:
+      - feat/standalone-dermatology-kg
+    paths:
+      - '.github/workflows/export-dermatology-source-lite.yaml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+        with:
+          fetch-depth: 1
+
+      - name: Create source-lite archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          paths=(
+            dermatology_kg
+            scripts
+            src
+            tests
+            kb
+            conf
+            README.md
+            pyproject.toml
+            uv.lock
+            justfile
+            project.justfile
+            LICENSE
+            docs/disclaimer.md
+            docs/explanation/design-decisions.md
+            docs/reports/dermatology-kg-review.md
+            .github/workflows/dermatology-kg.yaml
+          )
+          existing=()
+          for path in "${paths[@]}"; do
+            if [[ -e "$path" ]]; then
+              existing+=("$path")
+            fi
+          done
+          tar --sort=name --mtime='UTC 2000-01-01' --owner=0 --group=0 --numeric-owner \
+            -czf /tmp/dismech-dermatology-source-lite.tar.gz "${existing[@]}"
+          sha256sum /tmp/dismech-dermatology-source-lite.tar.gz > /tmp/SHA256SUMS.txt
+          du -h /tmp/dismech-dermatology-source-lite.tar.gz
+
+      - name: Upload source-lite archive
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: dismech-dermatology-source-lite
+          path: |
+            /tmp/dismech-dermatology-source-lite.tar.gz
+            /tmp/SHA256SUMS.txt
+          compression-level: 0
+          retention-days: 7

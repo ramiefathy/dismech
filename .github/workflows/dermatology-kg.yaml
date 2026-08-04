@@ -1,0 +1,174 @@
+---
+name: Dermatology KG
+
+on:
+  pull_request:
+    paths:
+      - 'kb/**'
+      - 'references_cache/**'
+      - 'history/**'
+      - 'research/**'
+      - 'src/dismech/schema/**'
+      - 'conf/**'
+      - 'dermatology_kg/**'
+      - 'src/dismech/export/dermatology_bundle.py'
+      - 'scripts/build_dermatology_kg.py'
+      - 'scripts/build_dermatology_kg_v2.py'
+      - 'tests/test_dermatology_bundle.py'
+      - 'tests/test_dermatology_bundle_repository.py'
+      - 'tests/test_dermatology_scope_supplement.py'
+      - '.github/workflows/dermatology-kg.yaml'
+  push:
+    branches: [main]
+    paths:
+      - 'kb/**'
+      - 'references_cache/**'
+      - 'history/**'
+      - 'research/**'
+      - 'src/dismech/schema/**'
+      - 'conf/**'
+      - 'dermatology_kg/**'
+      - 'src/dismech/export/dermatology_bundle.py'
+      - 'scripts/build_dermatology_kg.py'
+      - 'scripts/build_dermatology_kg_v2.py'
+      - 'tests/test_dermatology_bundle.py'
+      - 'tests/test_dermatology_bundle_repository.py'
+      - 'tests/test_dermatology_scope_supplement.py'
+      - '.github/workflows/dermatology-kg.yaml'
+  workflow_dispatch:
+    inputs:
+      profile:
+        description: Bundle profile
+        type: choice
+        options:
+          - archival
+          - compact
+        default: archival
+      build_archive:
+        description: Build and upload the standalone tar.gz artifact
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: '3.13'
+
+      - name: Install project
+        run: uv sync --dev
+
+      - name: Run exporter and supplemental-scope tests
+        run: |
+          uv run pytest \
+            tests/test_dermatology_bundle.py \
+            tests/test_dermatology_bundle_repository.py \
+            tests/test_dermatology_scope_supplement.py \
+            -q
+
+      - name: Validate current-corpus scope and dependency closure
+        run: |
+          uv run python scripts/build_dermatology_kg_v2.py \
+            --audit-only \
+            --no-strict \
+            --profile compact \
+            --output "${{ runner.temp }}/dermatology-kg-audit" \
+            --force
+
+      - name: Upload audit reports
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: dermatology-kg-audit-${{ github.sha }}
+          path: ${{ runner.temp }}/dermatology-kg-audit/
+          retention-days: 14
+          if-no-files-found: error
+
+  build-archive:
+    if: github.event_name != 'workflow_dispatch' || inputs.build_archive
+    needs: audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 1
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
+        with:
+          python-version: '3.13'
+
+      - name: Install project
+        run: uv sync --dev
+
+      - name: Resolve bundle profile
+        id: profile
+        shell: bash
+        run: |
+          profile=compact
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+            profile="${{ inputs.profile }}"
+          fi
+          echo "value=$profile" >> "$GITHUB_OUTPUT"
+
+      - name: Materialize merged scope inside repository
+        shell: bash
+        run: |
+          mkdir -p tmp
+          uv run python - <<'PY'
+          from pathlib import Path
+          import yaml
+          from scripts.build_dermatology_kg_v2 import merge_scope_policy
+
+          merged, _ = merge_scope_policy(
+              Path('dermatology_kg/scope.yaml'),
+              Path('dermatology_kg/supplemental_scope'),
+          )
+          Path('tmp/dermatology-merged-scope.yaml').write_text(
+              yaml.safe_dump(merged, sort_keys=False, allow_unicode=True),
+              encoding='utf-8',
+          )
+          PY
+
+      - name: Build standalone bundle
+        run: |
+          uv run python -m dismech.export.dermatology_bundle \
+            --policy tmp/dermatology-merged-scope.yaml \
+            --no-strict \
+            --profile "${{ steps.profile.outputs.value }}" \
+            --output "${{ runner.temp }}/dermatology-kg" \
+            --archive "${{ runner.temp }}/dismech-dermatology-kg.tar.gz" \
+            --force
+
+      - name: Upload standalone archive and manifest
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: dismech-dermatology-kg-${{ steps.profile.outputs.value }}-${{ github.sha }}
+          path: |
+            ${{ runner.temp }}/dismech-dermatology-kg.tar.gz
+            ${{ runner.temp }}/dermatology-kg/manifest.json
+            ${{ runner.temp }}/dermatology-kg/SHA256SUMS
+            ${{ runner.temp }}/dermatology-kg/reports/
+          retention-days: 14
+          if-no-files-found: error
