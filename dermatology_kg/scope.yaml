@@ -1,0 +1,965 @@
+# Reviewed specialty-scope policy for the standalone dermatology distribution.
+#
+# Automatic rules may include only from structured identity metadata, an exact
+# board-priority alias, a reviewed systemic co-management rule, or a sufficiently
+# strong structured phenotype pattern. Description text is candidate-generation
+# only. Uncertain candidates remain excluded until manual review.
+
+policy_version: 1
+name: DisMech dermatology specialty-scope policy
+scope_statement: Include disorders that are primarily cutaneous, hair, nail, mucosal, or adnexal; conditions commonly diagnosed or longitudinally managed by dermatologists; and systemic or inherited disorders with sufficiently strong structured cutaneous manifestations. Exclude uncertain candidates until curator review.
+governance:
+  selection_mode: fail_closed
+  description_text_can_auto_include: false
+  manual_exclude_overrides_all: true
+  source_records_are_transformed: false
+  uncertain_candidates_are_quarantined: true
+board_reference:
+  organization: American Board of Dermatology
+  document: BASIC Exam Content Outline
+  document_last_updated: 2019
+  reviewed_on: '2026-08-04'
+  url: https://www.abderm.org/public/for-dermatologists/dermatology-residency-training-program/basic-exam/basic-exam-content-outline
+  note: The list below is a scope-audit aid, not a claim that the outline is a complete clinical ontology or a current treatment guideline.
+direct_metadata_rules:
+- id: cutaneous_identity
+  regex: \b(?:skin|cutaneous|dermat(?:itis|osis|oses|ologic|ological|opathy)|dermatosis|dermatoses)\b
+  tier: PRIMARY_DERMATOLOGY
+  domains:
+  - medical_dermatology
+- id: hair_scalp_identity
+  regex: \b(?:hair|scalp|alopecia|hirsutism|hypertrichosis|trichotillomania|trichorrhexis|pili)\b
+  tier: PRIMARY_DERMATOLOGY
+  domains:
+  - hair_and_scalp
+- id: nail_identity
+  regex: \b(?:nail|ungual|subungual|periungual|onych[a-z]+)\b
+  tier: PRIMARY_DERMATOLOGY
+  domains:
+  - nail_disease
+- id: mucocutaneous_identity
+  regex: \b(?:mucocutaneous|oral mucos(?:a|al)|vulvar dermatosis|genital dermatosis)\b
+  tier: PRIMARY_DERMATOLOGY
+  domains:
+  - mucosal_dermatology
+- id: inflammatory_dermatoses
+  regex: \b(?:acne|rosacea|psoriasis|urticaria|angioedema|hidradenitis|lichen(?:oid)?|pityriasis|pemphig(?:us|oid)|vitiligo|melasma|morphea|scleroderma|ichthyosis|prurigo)\b
+  tier: PRIMARY_DERMATOLOGY
+  domains:
+  - medical_dermatology
+- id: cutaneous_infection_or_infestation
+  regex: \b(?:tinea|dermatophytosis|onychomycosis|scabies|pediculosis|impetigo|molluscum contagiosum|cutaneous leishmaniasis|leprosy|sporotrichosis)\b
+  tier: PRIMARY_DERMATOLOGY
+  domains:
+  - cutaneous_infection
+- id: genodermatosis_identity
+  regex: \b(?:epidermolysis bullosa|xeroderma pigmentosum|darier disease|hailey[- ]hailey|incontinentia pigmenti|ectodermal dysplasia|pachyonychia congenita|keratoderma)\b
+  tier: SYNDROMIC_DERMATOLOGY
+  domains:
+  - pediatric_dermatology
+  - genodermatoses
+- id: vascular_neutrophilic_granulomatous
+  regex: \b(?:pyoderma gangrenosum|sweet syndrome|erythema nodosum|granuloma annulare|necrobiosis lipoidica|livedoid vasculopathy)\b
+  tier: PRIMARY_DERMATOLOGY
+  domains:
+  - medical_dermatology
+- id: pigment_and_benign_lesion_identity
+  regex: \b(?:nevus|nevi|lentigo|lentigines|porokeratosis|seborrheic keratosis|actinic keratosis|acanthosis nigricans|dermatofibroma|pyogenic granuloma)\b
+  tier: PRIMARY_DERMATOLOGY
+  domains:
+  - medical_dermatology
+  - dermatologic_surgery
+- id: cutaneous_oncology_identity
+  regex: \b(?:cutaneous lymphoma|mycosis fungoides|sezary syndrome|skin cancer|cutaneous melanoma|dermatofibrosarcoma protuberans|merkel cell carcinoma|kaposi sarcoma)\b
+  tier: PRIMARY_DERMATOLOGY
+  domains:
+  - cutaneous_oncology
+  - dermatopathology
+comanaged_name_rules:
+- id: connective_tissue_disease
+  regex: \b(?:systemic lupus erythematosus|cutaneous lupus|dermatomyositis|antisynthetase syndrome|systemic sclerosis|mixed connective tissue disease|relapsing polychondritis)\b
+  tier: DERMATOLOGY_COMANAGED
+  domains:
+  - rheumatologic_dermatology
+- id: vasculitis_and_vasculopathy
+  regex: \b(?:beh[cç]et|polyarteritis nodosa|granulomatosis with polyangiitis|microscopic polyangiitis|eosinophilic granulomatosis with polyangiitis|cryoglobulinemia|cutaneous small vessel vasculitis|calciphylaxis|antiphospholipid syndrome)\b
+  tier: DERMATOLOGY_COMANAGED
+  domains:
+  - rheumatologic_dermatology
+  - vascular_dermatology
+- id: granulomatous_infiltrative_metabolic
+  regex: \b(?:sarcoidosis|amyloidosis|porphyria|pseudoxanthoma elasticum|fabry disease|hemochromatosis)\b
+  tier: DERMATOLOGY_COMANAGED
+  domains:
+  - medical_dermatology
+- id: neurocutaneous_and_tumor_syndromes
+  regex: \b(?:neurofibromatosis|tuberous sclerosis|pten hamartoma tumor syndrome|cowden syndrome|bannayan[- ]riley[- ]ruvalcaba|birt[- ]hogg[- ]dub[eé]|gorlin syndrome|basal cell nevus syndrome|carney complex|peutz[- ]jeghers|multiple endocrine neoplasia type 2b)\b
+  tier: SYNDROMIC_DERMATOLOGY
+  domains:
+  - genodermatoses
+  - cutaneous_oncology
+- id: histiocytic_and_mast_cell_disease
+  regex: \b(?:langerhans cell histiocytosis|juvenile xanthogranuloma|erdheim[- ]chester|mastocytosis|mast cell disease)\b
+  tier: DERMATOLOGY_COMANAGED
+  domains:
+  - pediatric_dermatology
+  - dermatopathology
+- id: graft_versus_host_disease
+  regex: \b(?:graft[- ]versus[- ]host disease|graft versus host disease)\b
+  tier: DERMATOLOGY_COMANAGED
+  domains:
+  - inpatient_dermatology
+  - medical_dermatology
+- id: sexually_transmitted_infections
+  regex: \b(?:syphilis|chancroid|lymphogranuloma venereum|granuloma inguinale|donovanosis|anogenital warts)\b
+  tier: DERMATOLOGY_COMANAGED
+  domains:
+  - mucosal_dermatology
+  - cutaneous_infection
+- id: nutritional_and_deficiency_dermatoses
+  regex: \b(?:acrodermatitis enteropathica|pellagra|scurvy|zinc deficiency|biotin deficiency)\b
+  tier: DERMATOLOGY_COMANAGED
+  domains:
+  - medical_dermatology
+  - pediatric_dermatology
+- id: severe_cutaneous_adverse_reactions
+  regex: \b(?:stevens[- ]johnson syndrome|toxic epidermal necrolysis|dress syndrome|drug reaction with eosinophilia|acute generalized exanthematous pustulosis)\b
+  tier: DERMATOLOGY_COMANAGED
+  domains:
+  - inpatient_dermatology
+phenotype_rules:
+  minimum_matches: 4
+  minimum_matches_with_diagnostic: 2
+  patterns:
+  - id: primary_secondary_lesions
+    regex: \b(?:rash|eruption|erythema|papule|plaque|pustule|vesicle|bulla|blister|wheal|comedone|scale|scaling|crust|erosion|ulcer|lichenification|excoriation|fissure|eschar|skin nodule|cutaneous nodule)\b
+  - id: pigment_and_vascular_signs
+    regex: \b(?:hyperpigmentation|hypopigmentation|depigmentation|cafe[- ]au[- ]lait|freckling|lentigines|telangiectasia|purpura|petechiae|ecchymosis|livedo|cyanosis)\b
+  - id: surface_texture_and_symptoms
+    regex: \b(?:hyperkeratosis|keratoderma|xerosis|pruritus|skin pain|skin fragility|photosensitivity|sclerodactyly|skin sclerosis|skin atrophy|scarring)\b
+  - id: hair_signs
+    regex: \b(?:alopecia|hair loss|hypotrichosis|hypertrichosis|hirsutism|hair shaft|woolly hair|scarring alopecia)\b
+  - id: nail_signs
+    regex: \b(?:nail dystrophy|onycholysis|onychomadesis|pitting of nails|clubbing|subungual|periungual|leukonychia|melanonychia)\b
+  - id: mucosal_signs
+    regex: \b(?:oral ulcer|aphthous ulcer|mucosal erosion|mucosal blister|genital ulcer|cheilitis|glossitis|gingival|oral pigmentation)\b
+  - id: adnexal_and_sweat_signs
+    regex: \b(?:anhidrosis|hypohidrosis|hyperhidrosis|sebaceous|follicular plugging|acneiform|hidradenitis)\b
+candidate_description_rules:
+- id: skin_or_cutaneous
+  regex: \b(?:skin|cutaneous|dermatologic|dermatological)\b
+- id: hair_or_nail
+  regex: \b(?:hair|scalp|nail|ungual)\b
+- id: mucosal_or_oral_ulcer
+  regex: \b(?:mucocutaneous|mucosal|oral ulcer|genital ulcer)\b
+- id: photosensitive_or_pigment
+  regex: \b(?:photosensitiv|hyperpigment|hypopigment|depigment)\w*\b
+manual_includes: []
+manual_excludes: []
+board_priority:
+- id: acanthosis_nigricans
+  label: Acanthosis nigricans
+  domains:
+  - medical_dermatology
+- id: acne_vulgaris
+  label: Acne vulgaris
+  domains:
+  - medical_dermatology
+  aliases:
+  - Acne
+- id: actinic_keratosis
+  label: Actinic keratosis
+  domains:
+  - cutaneous_oncology
+  - dermatologic_surgery
+- id: alopecia_areata
+  label: Alopecia areata
+  domains:
+  - hair_and_scalp
+- id: atopic_dermatitis
+  label: Atopic dermatitis
+  domains:
+  - medical_dermatology
+  - pediatric_dermatology
+  aliases:
+  - Atopic eczema
+- id: basal_cell_carcinoma
+  label: Basal cell carcinoma
+  domains:
+  - cutaneous_oncology
+  - dermatologic_surgery
+  aliases:
+  - BCC
+- id: candidiasis
+  label: Cutaneous candidiasis
+  domains:
+  - cutaneous_infection
+  aliases:
+  - Candidiasis
+- id: cellulitis
+  label: Cellulitis
+  domains:
+  - cutaneous_infection
+  - inpatient_dermatology
+- id: contact_dermatitis
+  label: Contact dermatitis
+  domains:
+  - medical_dermatology
+- id: cutaneous_t_cell_lymphoma
+  label: Cutaneous T-cell lymphoma
+  domains:
+  - cutaneous_oncology
+  - dermatopathology
+  aliases:
+  - CTCL
+  - Mycosis fungoides
+- id: dermatofibroma
+  label: Dermatofibroma
+  domains:
+  - dermatologic_surgery
+  - dermatopathology
+- id: dermatomyositis
+  label: Dermatomyositis
+  domains:
+  - rheumatologic_dermatology
+- id: eczema_herpeticum
+  label: Eczema herpeticum
+  domains:
+  - cutaneous_infection
+  - inpatient_dermatology
+- id: erythema_multiforme
+  label: Erythema multiforme
+  domains:
+  - medical_dermatology
+- id: granuloma_annulare
+  label: Granuloma annulare
+  domains:
+  - medical_dermatology
+- id: infantile_hemangioma
+  label: Infantile hemangioma
+  domains:
+  - pediatric_dermatology
+  aliases:
+  - Hemangioma
+- id: herpes_simplex
+  label: Herpes simplex infection
+  domains:
+  - cutaneous_infection
+  aliases:
+  - Herpes simplex
+- id: herpes_zoster
+  label: Herpes zoster
+  domains:
+  - cutaneous_infection
+  aliases:
+  - Shingles
+- id: impetigo
+  label: Impetigo
+  domains:
+  - cutaneous_infection
+  - pediatric_dermatology
+- id: keloid
+  label: Keloid
+  domains:
+  - dermatologic_surgery
+- id: lentigo
+  label: Lentigo
+  domains:
+  - medical_dermatology
+- id: lichen_planus
+  label: Lichen planus
+  domains:
+  - medical_dermatology
+  - mucosal_dermatology
+- id: livedo_reticularis
+  label: Livedo reticularis
+  domains:
+  - vascular_dermatology
+  - rheumatologic_dermatology
+- id: cutaneous_lupus
+  label: Cutaneous lupus erythematosus
+  domains:
+  - rheumatologic_dermatology
+  aliases:
+  - Discoid lupus erythematosus
+  - Subacute cutaneous lupus erythematosus
+- id: melanoma
+  label: Cutaneous melanoma
+  domains:
+  - cutaneous_oncology
+  - dermatologic_surgery
+  aliases:
+  - Melanoma
+- id: molluscum_contagiosum
+  label: Molluscum contagiosum
+  domains:
+  - cutaneous_infection
+  - pediatric_dermatology
+- id: morbilliform_drug_eruption
+  label: Morbilliform drug eruption
+  domains:
+  - medical_dermatology
+  - inpatient_dermatology
+- id: melanocytic_nevus
+  label: Melanocytic nevus
+  domains:
+  - dermatologic_surgery
+  aliases:
+  - Melanocytic nevi
+- id: nummular_dermatitis
+  label: Nummular dermatitis
+  domains:
+  - medical_dermatology
+  aliases:
+  - Nummular eczema
+- id: onychomycosis
+  label: Onychomycosis
+  domains:
+  - nail_disease
+  - cutaneous_infection
+- id: perioral_dermatitis
+  label: Perioral dermatitis
+  domains:
+  - medical_dermatology
+- id: pityriasis_rosea
+  label: Pityriasis rosea
+  domains:
+  - medical_dermatology
+- id: prurigo_nodularis
+  label: Prurigo nodularis
+  domains:
+  - medical_dermatology
+- id: psoriasis
+  label: Psoriasis
+  domains:
+  - medical_dermatology
+- id: pyoderma_gangrenosum
+  label: Pyoderma gangrenosum
+  domains:
+  - medical_dermatology
+  - inpatient_dermatology
+- id: rosacea
+  label: Rosacea
+  domains:
+  - medical_dermatology
+- id: scabies
+  label: Scabies
+  domains:
+  - cutaneous_infection
+- id: pediculosis
+  label: Pediculosis
+  domains:
+  - cutaneous_infection
+  aliases:
+  - Lice infestation
+- id: sebaceous_hyperplasia
+  label: Sebaceous hyperplasia
+  domains:
+  - medical_dermatology
+- id: seborrheic_dermatitis
+  label: Seborrheic dermatitis
+  domains:
+  - medical_dermatology
+- id: seborrheic_keratosis
+  label: Seborrheic keratosis
+  domains:
+  - dermatologic_surgery
+- id: cutaneous_small_vessel_vasculitis
+  label: Cutaneous small vessel vasculitis
+  domains:
+  - rheumatologic_dermatology
+  - vascular_dermatology
+  aliases:
+  - Leukocytoclastic vasculitis
+- id: cutaneous_squamous_cell_carcinoma
+  label: Cutaneous squamous cell carcinoma
+  domains:
+  - cutaneous_oncology
+  - dermatologic_surgery
+  aliases:
+  - Squamous cell carcinoma of skin
+  - Keratoacanthoma
+  - Squamous cell carcinoma in situ
+- id: stasis_dermatitis
+  label: Stasis dermatitis
+  domains:
+  - medical_dermatology
+  - vascular_dermatology
+- id: dermatophytosis
+  label: Dermatophytosis
+  domains:
+  - cutaneous_infection
+  aliases:
+  - Tinea corporis
+  - Tinea cruris
+  - Tinea pedis
+  - Tinea capitis
+- id: tinea_versicolor
+  label: Tinea versicolor
+  domains:
+  - cutaneous_infection
+  aliases:
+  - Pityriasis versicolor
+- id: toxic_epidermal_necrolysis
+  label: Toxic epidermal necrolysis
+  domains:
+  - inpatient_dermatology
+  aliases:
+  - TEN
+- id: stevens_johnson_syndrome
+  label: Stevens-Johnson syndrome
+  domains:
+  - inpatient_dermatology
+  aliases:
+  - SJS
+- id: urticaria
+  label: Urticaria
+  domains:
+  - medical_dermatology
+- id: varicella
+  label: Varicella
+  domains:
+  - cutaneous_infection
+  - pediatric_dermatology
+  aliases:
+  - Chickenpox
+- id: vitiligo
+  label: Vitiligo
+  domains:
+  - medical_dermatology
+- id: viral_wart
+  label: Viral wart
+  domains:
+  - cutaneous_infection
+  - dermatologic_surgery
+  aliases:
+  - Wart
+  - Verruca vulgaris
+- id: agep
+  label: Acute generalized exanthematous pustulosis
+  domains:
+  - inpatient_dermatology
+  aliases:
+  - AGEP
+- id: angiofibroma
+  label: Angiofibroma
+  domains:
+  - pediatric_dermatology
+  - genodermatoses
+- id: angiokeratoma
+  label: Angiokeratoma
+  domains:
+  - medical_dermatology
+- id: arthropod_bite_reaction
+  label: Arthropod bite reaction
+  domains:
+  - medical_dermatology
+- id: beau_lines
+  label: Beau lines
+  domains:
+  - nail_disease
+- id: becker_nevus
+  label: Becker nevus
+  domains:
+  - medical_dermatology
+- id: blue_nevus
+  label: Blue nevus
+  domains:
+  - dermatopathology
+  - dermatologic_surgery
+- id: bullous_pemphigoid
+  label: Bullous pemphigoid
+  domains:
+  - medical_dermatology
+  - inpatient_dermatology
+- id: calciphylaxis
+  label: Calciphylaxis
+  domains:
+  - inpatient_dermatology
+  - vascular_dermatology
+- id: chondrodermatitis_nodularis_helicis
+  label: Chondrodermatitis nodularis helicis
+  domains:
+  - dermatologic_surgery
+  aliases:
+  - CNH
+- id: cutaneous_larva_migrans
+  label: Cutaneous larva migrans
+  domains:
+  - cutaneous_infection
+- id: dermatitis_herpetiformis
+  label: Dermatitis herpetiformis
+  domains:
+  - medical_dermatology
+- id: dyshidrotic_eczema
+  label: Dyshidrotic eczema
+  domains:
+  - medical_dermatology
+  aliases:
+  - Pompholyx
+- id: erythema_nodosum
+  label: Erythema nodosum
+  domains:
+  - medical_dermatology
+  - rheumatologic_dermatology
+- id: factitial_dermatitis
+  label: Factitial dermatitis
+  domains:
+  - medical_dermatology
+  aliases:
+  - Dermatitis artefacta
+- id: fixed_drug_eruption
+  label: Fixed drug eruption
+  domains:
+  - medical_dermatology
+- id: folliculitis
+  label: Folliculitis
+  domains:
+  - medical_dermatology
+  - cutaneous_infection
+- id: geographic_tongue
+  label: Geographic tongue
+  domains:
+  - mucosal_dermatology
+- id: hand_foot_mouth_disease
+  label: Hand-foot-and-mouth disease
+  domains:
+  - pediatric_dermatology
+  - cutaneous_infection
+- id: hidradenitis_suppurativa
+  label: Hidradenitis suppurativa
+  domains:
+  - medical_dermatology
+- id: ichthyosis_vulgaris
+  label: Ichthyosis vulgaris
+  domains:
+  - genodermatoses
+  - pediatric_dermatology
+- id: keratosis_pilaris
+  label: Keratosis pilaris
+  domains:
+  - medical_dermatology
+- id: lichen_nitidus
+  label: Lichen nitidus
+  domains:
+  - medical_dermatology
+- id: lichen_sclerosus
+  label: Lichen sclerosus
+  domains:
+  - mucosal_dermatology
+- id: lichen_simplex_chronicus
+  label: Lichen simplex chronicus
+  domains:
+  - medical_dermatology
+- id: lichen_striatus
+  label: Lichen striatus
+  domains:
+  - pediatric_dermatology
+- id: lichenoid_drug_eruption
+  label: Lichenoid drug eruption
+  domains:
+  - medical_dermatology
+- id: lipodermatosclerosis
+  label: Lipodermatosclerosis
+  domains:
+  - vascular_dermatology
+- id: melasma
+  label: Melasma
+  domains:
+  - medical_dermatology
+- id: morphea
+  label: Morphea
+  domains:
+  - rheumatologic_dermatology
+  - pediatric_dermatology
+  aliases:
+  - Localized scleroderma
+- id: necrobiosis_lipoidica
+  label: Necrobiosis lipoidica
+  domains:
+  - medical_dermatology
+- id: neurofibroma
+  label: Neurofibroma
+  domains:
+  - genodermatoses
+  - dermatologic_surgery
+- id: nevus_sebaceous
+  label: Nevus sebaceous
+  domains:
+  - pediatric_dermatology
+  - dermatologic_surgery
+- id: nevus_spilus
+  label: Nevus spilus
+  domains:
+  - medical_dermatology
+  aliases:
+  - Speckled lentiginous nevus
+- id: parapsoriasis
+  label: Parapsoriasis
+  domains:
+  - medical_dermatology
+  - cutaneous_oncology
+- id: pemphigus_vulgaris
+  label: Pemphigus vulgaris
+  domains:
+  - medical_dermatology
+  - mucosal_dermatology
+- id: pemphigus_foliaceus
+  label: Pemphigus foliaceus
+  domains:
+  - medical_dermatology
+- id: paraneoplastic_pemphigus
+  label: Paraneoplastic pemphigus
+  domains:
+  - medical_dermatology
+  - mucosal_dermatology
+  - cutaneous_oncology
+- id: photoallergic_contact_dermatitis
+  label: Photoallergic contact dermatitis
+  domains:
+  - photodermatology
+- id: phototoxic_dermatitis
+  label: Phototoxic dermatitis
+  domains:
+  - photodermatology
+- id: pigmented_purpuric_dermatosis
+  label: Pigmented purpuric dermatosis
+  domains:
+  - vascular_dermatology
+- id: pitted_keratolysis
+  label: Pitted keratolysis
+  domains:
+  - cutaneous_infection
+- id: pityriasis_rubra_pilaris
+  label: Pityriasis rubra pilaris
+  domains:
+  - medical_dermatology
+  aliases:
+  - PRP
+- id: poikiloderma_of_civatte
+  label: Poikiloderma of Civatte
+  domains:
+  - photodermatology
+- id: polymorphous_light_eruption
+  label: Polymorphous light eruption
+  domains:
+  - photodermatology
+  aliases:
+  - PMLE
+- id: porokeratosis
+  label: Porokeratosis
+  domains:
+  - medical_dermatology
+  - cutaneous_oncology
+- id: porphyria_cutanea_tarda
+  label: Porphyria cutanea tarda
+  domains:
+  - medical_dermatology
+  aliases:
+  - PCT
+- id: pyogenic_granuloma
+  label: Pyogenic granuloma
+  domains:
+  - dermatologic_surgery
+- id: sarcoidosis
+  label: Sarcoidosis
+  domains:
+  - medical_dermatology
+  - rheumatologic_dermatology
+- id: sporotrichosis
+  label: Sporotrichosis
+  domains:
+  - cutaneous_infection
+- id: sweet_syndrome
+  label: Sweet syndrome
+  domains:
+  - medical_dermatology
+  - inpatient_dermatology
+- id: syringoma
+  label: Syringoma
+  domains:
+  - medical_dermatology
+- id: systemic_sclerosis
+  label: Systemic sclerosis
+  domains:
+  - rheumatologic_dermatology
+  aliases:
+  - Scleroderma
+- id: acquired_bullous_epidermolysis
+  label: Epidermolysis bullosa acquisita
+  domains:
+  - medical_dermatology
+- id: linear_iga_bullous_dermatosis
+  label: Linear IgA bullous dermatosis
+  domains:
+  - medical_dermatology
+  - pediatric_dermatology
+- id: mucous_membrane_pemphigoid
+  label: Mucous membrane pemphigoid
+  domains:
+  - mucosal_dermatology
+- id: epidermolysis_bullosa
+  label: Epidermolysis bullosa
+  domains:
+  - genodermatoses
+  - pediatric_dermatology
+- id: porphyria
+  label: Porphyria
+  domains:
+  - medical_dermatology
+- id: amyloidosis
+  label: Amyloidosis
+  domains:
+  - medical_dermatology
+- id: xanthoma
+  label: Xanthoma
+  domains:
+  - medical_dermatology
+- id: graft_versus_host_disease
+  label: Graft-versus-host disease
+  domains:
+  - inpatient_dermatology
+- id: behcet_disease
+  label: Behçet disease
+  domains:
+  - rheumatologic_dermatology
+  - mucosal_dermatology
+  aliases:
+  - Behcet disease
+- id: polyarteritis_nodosa
+  label: Polyarteritis nodosa
+  domains:
+  - rheumatologic_dermatology
+  - vascular_dermatology
+- id: cryoglobulinemic_vasculitis
+  label: Cryoglobulinemic vasculitis
+  domains:
+  - rheumatologic_dermatology
+  - vascular_dermatology
+- id: androgenetic_alopecia
+  label: Androgenetic alopecia
+  domains:
+  - hair_and_scalp
+- id: telogen_effluvium
+  label: Telogen effluvium
+  domains:
+  - hair_and_scalp
+- id: traction_alopecia
+  label: Traction alopecia
+  domains:
+  - hair_and_scalp
+- id: central_centrifugal_cicatricial_alopecia
+  label: Central centrifugal cicatricial alopecia
+  domains:
+  - hair_and_scalp
+  aliases:
+  - CCCA
+- id: lichen_planopilaris
+  label: Lichen planopilaris
+  domains:
+  - hair_and_scalp
+- id: discoid_lupus_alopecia
+  label: Discoid lupus erythematosus
+  domains:
+  - hair_and_scalp
+  - rheumatologic_dermatology
+- id: trichotillomania
+  label: Trichotillomania
+  domains:
+  - hair_and_scalp
+- id: tinea_capitis
+  label: Tinea capitis
+  domains:
+  - hair_and_scalp
+  - cutaneous_infection
+  - pediatric_dermatology
+- id: paronychia
+  label: Paronychia
+  domains:
+  - nail_disease
+  - cutaneous_infection
+- id: nail_psoriasis
+  label: Nail psoriasis
+  domains:
+  - nail_disease
+- id: lichen_planus_nail
+  label: Nail lichen planus
+  domains:
+  - nail_disease
+- id: melanonychia
+  label: Melanonychia
+  domains:
+  - nail_disease
+  - cutaneous_oncology
+- id: albinism
+  label: Oculocutaneous albinism
+  domains:
+  - medical_dermatology
+  - genodermatoses
+  aliases:
+  - Albinism
+- id: postinflammatory_hyperpigmentation
+  label: Postinflammatory hyperpigmentation
+  domains:
+  - medical_dermatology
+- id: piebaldism
+  label: Piebaldism
+  domains:
+  - genodermatoses
+- id: incontinentia_pigmenti
+  label: Incontinentia pigmenti
+  domains:
+  - genodermatoses
+  - pediatric_dermatology
+- id: dermatofibrosarcoma_protuberans
+  label: Dermatofibrosarcoma protuberans
+  domains:
+  - cutaneous_oncology
+  - dermatologic_surgery
+  aliases:
+  - DFSP
+- id: merkel_cell_carcinoma
+  label: Merkel cell carcinoma
+  domains:
+  - cutaneous_oncology
+  - dermatologic_surgery
+- id: kaposi_sarcoma
+  label: Kaposi sarcoma
+  domains:
+  - cutaneous_oncology
+- id: sebaceous_carcinoma
+  label: Sebaceous carcinoma
+  domains:
+  - cutaneous_oncology
+  - dermatopathology
+- id: microcystic_adnexal_carcinoma
+  label: Microcystic adnexal carcinoma
+  domains:
+  - cutaneous_oncology
+  - dermatopathology
+- id: dermatofibrosarcoma
+  label: Dermatofibrosarcoma
+  domains:
+  - cutaneous_oncology
+- id: leprosy
+  label: Leprosy
+  domains:
+  - cutaneous_infection
+- id: cutaneous_leishmaniasis
+  label: Cutaneous leishmaniasis
+  domains:
+  - cutaneous_infection
+- id: syphilis
+  label: Syphilis
+  domains:
+  - cutaneous_infection
+  - mucosal_dermatology
+- id: human_papillomavirus_infection
+  label: Human papillomavirus infection
+  domains:
+  - cutaneous_infection
+  - mucosal_dermatology
+  aliases:
+  - HPV infection
+- id: neurofibromatosis_type_1
+  label: Neurofibromatosis type 1
+  domains:
+  - genodermatoses
+  - pediatric_dermatology
+  aliases:
+  - NF1
+- id: tuberous_sclerosis_complex
+  label: Tuberous sclerosis complex
+  domains:
+  - genodermatoses
+  - pediatric_dermatology
+  aliases:
+  - TSC
+- id: pten_hamartoma_tumor_syndrome
+  label: PTEN hamartoma tumor syndrome
+  domains:
+  - genodermatoses
+  - cutaneous_oncology
+  aliases:
+  - PHTS
+- id: cowden_syndrome
+  label: Cowden syndrome
+  domains:
+  - genodermatoses
+  - cutaneous_oncology
+- id: bannayan_riley_ruvalcaba
+  label: Bannayan-Riley-Ruvalcaba syndrome
+  domains:
+  - genodermatoses
+  - pediatric_dermatology
+  aliases:
+  - BRRS
+- id: xeroderma_pigmentosum
+  label: Xeroderma pigmentosum
+  domains:
+  - genodermatoses
+  - cutaneous_oncology
+- id: darier_disease
+  label: Darier disease
+  domains:
+  - genodermatoses
+- id: hailey_hailey_disease
+  label: Hailey-Hailey disease
+  domains:
+  - genodermatoses
+- id: pachyonychia_congenita
+  label: Pachyonychia congenita
+  domains:
+  - genodermatoses
+  - nail_disease
+- id: ectodermal_dysplasia
+  label: Ectodermal dysplasia
+  domains:
+  - genodermatoses
+  - pediatric_dermatology
+- id: langerhans_cell_histiocytosis
+  label: Langerhans cell histiocytosis
+  domains:
+  - pediatric_dermatology
+  - dermatopathology
+  aliases:
+  - LCH
+- id: juvenile_xanthogranuloma
+  label: Juvenile xanthogranuloma
+  domains:
+  - pediatric_dermatology
+  - dermatopathology
+  aliases:
+  - JXG
+- id: mastocytosis
+  label: Cutaneous mastocytosis
+  domains:
+  - pediatric_dermatology
+  - dermatopathology
+  aliases:
+  - Mastocytosis
+- id: aplasia_cutis_congenita
+  label: Aplasia cutis congenita
+  domains:
+  - pediatric_dermatology
+- id: harlequin_ichthyosis
+  label: Harlequin ichthyosis
+  domains:
+  - pediatric_dermatology
+  - genodermatoses
+- id: staphylococcal_scalded_skin_syndrome
+  label: Staphylococcal scalded skin syndrome
+  domains:
+  - pediatric_dermatology
+  - inpatient_dermatology
+  aliases:
+  - SSSS
+- id: acrodermatitis_enteropathica
+  label: Acrodermatitis enteropathica
+  domains:
+  - pediatric_dermatology
+- id: pilomatricoma
+  label: Pilomatricoma
+  domains:
+  - pediatric_dermatology
+  - dermatologic_surgery
