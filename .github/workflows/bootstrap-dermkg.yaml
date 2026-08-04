@@ -51,6 +51,9 @@ jobs:
           fi
 
           tar -xzf /tmp/dermkg-payload.tar.gz -C .
+          # GITHUB_TOKEN cannot push a newly added workflow file. The connector
+          # adds the verified workflow in the subsequent clean commit.
+          rm -f .github/workflows/dermatology-kg.yaml
           rm -rf .bootstrap .github/workflows/bootstrap-dermkg.yaml
 
           git config user.name 'github-actions[bot]'
