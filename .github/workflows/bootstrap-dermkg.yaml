@@ -19,7 +19,15 @@ jobs:
       - name: Check out feature branch
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
-          fetch-depth: 0
+          fetch-depth: 1
+          sparse-checkout: |
+            .bootstrap
+            .github/workflows
+            dermatology_kg
+            scripts
+            src/dismech/export
+            tests
+          sparse-checkout-cone-mode: true
           ref: ${{ github.head_ref || github.ref_name }}
 
       - name: Verify and materialize reviewed payload
